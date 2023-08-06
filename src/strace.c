@@ -33,7 +33,7 @@ void do_strace(data_s *data_s, pid_t child)
         ptrace(PTRACE_GETREGS, child, NULL, &regs);
         data_s->opcode = ptrace(PTRACE_PEEKTEXT, child, regs.rip, NULL);
         entering(data_s, (long)regs.rip);
-        if (regs.orig_rax != -1) {
+        if (regs.orig_rax != -1 && regs.orig_rax < 329) {
             printf("Syscall %s(", syscalls_info[regs.orig_rax].name);
             get_params(data_s, regs, regs.orig_rax);
             get_return(data_s, regs, regs.orig_rax);
